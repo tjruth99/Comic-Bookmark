@@ -2,12 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -19,15 +13,31 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.divider {
+  width: 10px;
+  height: auto;
+  display: inline-block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  background-color: #282c34;
+  color: white;
+  border: 2px solid white;
+  height: 35px;
+  width: 100px;
+  padding: 5px 10px;
+  opacity: 0.9;
+  transition: 0.5s;
+  display: inline-block;
+}
+
+button:hover {
+  background-color: white;
+  color: black;
+  opacity: 1;
+}
+
+button:active {
+  background-color: #282c34;
+  color: white;
 }
