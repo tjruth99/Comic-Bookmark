@@ -1,15 +1,22 @@
 import React from 'react';
+import * as firebase from 'firebase';
 
 class LogInForm extends React.Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
-      username: "",
+      email: "",
       password: "",
+      loggedIn: 0
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  handleAuthenticationUpdate() {
+    this.setState({ loggedIn: 1 })
+  };
 
   handleInputChange(event) {
     const {name, value} = event.target
@@ -18,19 +25,27 @@ class LogInForm extends React.Component {
     })
   }
 
-  handleSubmit(event) {
-    alert("Submit");
+  handleSubmit() {
+    console.log("handleLogIn");
+
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        this.handleAuthenticationUpdate();
+      })
+      .catch(function(error) {
+        console.log(error.message);
+      });
   }
 
   render () {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Username:
+          Email:
           <input
             type="text"
             value={this.state.username}
-            name="username"
+            name="email"
             onChange={this.handleInputChange}
           />
         </label>
@@ -45,7 +60,12 @@ class LogInForm extends React.Component {
           />
         </label>
         <br />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+        >
+          Log In
+        </button>
+        <h1>{this.state.loggedIn}</h1>
       </form>
     );
   }

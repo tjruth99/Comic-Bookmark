@@ -1,4 +1,5 @@
 import React from 'react';
+import * as firebase from 'firebase';
 
 class SignUpForm extends React.Component {
   constructor(props){
@@ -10,6 +11,7 @@ class SignUpForm extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -19,8 +21,16 @@ class SignUpForm extends React.Component {
     })
   }
 
-  handleSubmit(event) {
-    alert("Submit");
+  handleSubmit() {
+    console.log("handleSubmit");
+
+    firebase.auth().createAccountWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        console.log("Created Account");
+      })
+      .catch(function(error) {
+        console.log(error.message);
+      });
   }
 
   render () {
@@ -56,7 +66,11 @@ class SignUpForm extends React.Component {
           />
         </label>
         <br />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+        >
+          Create
+        </button>
       </form>
     );
   }
