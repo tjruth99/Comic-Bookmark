@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
 import Home from "./components/Home";
+import Comics from "./components/Comics";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
@@ -23,6 +24,15 @@ class App extends Component {
                 type="button"
               >
                 Home
+              </button>
+            </Link>
+            <div class="divider" />
+            <Link to="/comics">
+              <button
+                name="comicsButton"
+                type="button"
+              >
+                Comics
               </button>
             </Link>
             <div class="divider" />
@@ -57,6 +67,7 @@ class App extends Component {
         </header>
         <div>
           <Route exact path="/" component={Home} />
+          <Route path="/comics" component={Comics} />
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/profile" component={Profile} />
