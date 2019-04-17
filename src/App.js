@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
+import Home from "./components/Home";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
+import Profile from "./components/Profile";
+
 
 class App extends Component {
   render() {
@@ -10,7 +15,7 @@ class App extends Component {
         <header className="App-header">
           <p>
             <h1>Welcome to Comic Bookmark</h1>
-            <h3>Follow the whole story</h3>
+            <h5>Follow the whole story</h5>
           </p>
           <div>
             <Link to="/">
@@ -61,38 +66,6 @@ class App extends Component {
       </div>
     );
   }
-}
-
-function Home(){
-  return(
-    <div>
-      Home
-    </div>
-  )
-}
-
-function LogIn(){
-  return(
-    <div>
-      Login
-    </div>
-  )
-}
-
-function SignUp(){
-  return(
-    <div>
-      SignUp
-    </div>
-  )
-}
-
-function Profile(){
-  return(
-    <div>
-      Profile
-    </div>
-  )
 }
 
 export default App;
