@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #282f34;
   min-height: 15vh;
   display: flex;
   flex-direction: column;
@@ -20,10 +20,10 @@
 }
 
 button {
-  background-color: #282c34;
+  background-color: #282f34;
   color: white;
   border: 2px solid white;
-  height: 35px;
+  height: 30px;
   width: 100px;
   padding: 5px 10px;
   opacity: 0.9;

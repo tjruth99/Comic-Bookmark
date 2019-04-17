@@ -14,8 +14,7 @@ class App extends Component {
       <Router>
         <header className="App-header">
           <p>
-            <h1>Welcome to Comic Bookmark</h1>
-            <h5>Follow the whole story</h5>
+            <h1>Comic Bookmark</h1>
           </p>
           <div>
             <Link to="/">
