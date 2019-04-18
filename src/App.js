@@ -9,10 +9,10 @@ import Profile from "./components/Profile";
 
 
 class App extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      username: "",
+      username: "testtesttest",
       isLogged: 0
     };
   }

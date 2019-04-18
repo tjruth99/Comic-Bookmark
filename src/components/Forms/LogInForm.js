@@ -2,8 +2,8 @@ import React from 'react';
 import * as firebase from 'firebase';
 
 class LogInForm extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       email: "",
       password: "",
@@ -70,6 +70,7 @@ class LogInForm extends React.Component {
             Log In
           </button>
           <h1>{this.state.loggedIn}</h1>
+          <h1>{this.props.username}</h1>
         </form>
       </ div>
     );
