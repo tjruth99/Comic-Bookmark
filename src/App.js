@@ -22,55 +22,53 @@ class App extends Component {
       <div className="App">
       <Router>
         <header className="App-header">
-          <p>
-            <h1>Comic Bookmark</h1>
-          </p>
+          <h1>Comic Bookmark</h1>
           <div>
             <Link to="/">
               <button
                 name="homeButton"
                 type="button"
-                class="navButton"
+                className="navButton"
               >
                 Home
               </button>
             </Link>
-            <div class="divider" />
+            <div className="divider" />
             <Link to="/comics">
               <button
                 name="comicsButton"
                 type="button"
-                class="navButton"
+                className="navButton"
               >
                 Comics
               </button>
             </Link>
-            <div class="divider" />
+            <div className="divider" />
             <Link to="/login">
               <button
                 name="loginButton"
                 type="button"
-                class="navButton"
+                className="navButton"
               >
                 Login
               </button>
             </Link>
-            <div class="divider" />
+            <div className="divider" />
             <Link to="/signup">
               <button
                 name="signupButton"
                 type="button"
-                class="navButton"
+                className="navButton"
               >
                 Sign-Up
               </button>
             </Link>
-            <div class="divider" />
+            <div className="divider" />
             <Link to="/profile">
               <button
                 name="profileButton"
                 type="button"
-                class="navButton"
+                className="navButton"
               >
                 Profile
               </button>

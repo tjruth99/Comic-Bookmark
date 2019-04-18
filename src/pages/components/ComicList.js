@@ -11,7 +11,6 @@ export default class ComicList extends React.Component {
 
   startReading(name) {
     // Add the current comic book to the user's database to start Reading
-    alert("test");
     console.log("Start Reading:");
     console.log(name);
   }
@@ -22,7 +21,12 @@ export default class ComicList extends React.Component {
         <div className="comicList">
           <h2>{name}</h2>
           <h4>{issues} issues</h4>
-          <button type="button" onClick={this.startReading(name)}>Start Reading</button>
+          <button
+            type="button"
+            onClick={() => this.startReading(name)}
+          >
+            Start Reading
+          </button>
         </div>
         <br />
       </div>

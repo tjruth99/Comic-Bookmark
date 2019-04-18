@@ -11,7 +11,7 @@ class LogInForm extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
   }
 
   handleAuthenticationUpdate() {
@@ -25,7 +25,7 @@ class LogInForm extends React.Component {
     })
   }
 
-  handleSubmit() {
+  handleLogIn() {
     console.log("handleLogIn");
 
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -65,7 +65,8 @@ class LogInForm extends React.Component {
           </label>
           <br /><br />
           <button
-            type="submit"
+            type="button"
+            onClick={this.handleLogIn}
           >
             Log In
           </button>

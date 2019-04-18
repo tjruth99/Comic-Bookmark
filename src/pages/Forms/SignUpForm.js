@@ -11,7 +11,7 @@ class SignUpForm extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   handleInputChange(event) {
@@ -21,15 +21,15 @@ class SignUpForm extends React.Component {
     })
   }
 
-  handleSubmit() {
-    console.log("handleSubmit");
+  handleSignUp() {
+    console.log("handleSignUp");
 
-    firebase.auth().createAccountWithEmailAndPassword(this.state.email, this.state.password)
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         console.log("Created Account");
       })
       .catch(function(error) {
-        alert("Error when creating account", error.message)
+        alert("Error when creating account: " + error.message)
         console.log(error.message);
       });
   }
@@ -71,7 +71,8 @@ class SignUpForm extends React.Component {
           </label>
           <br /><br />
           <button
-            type="submit"
+            type="button"
+            onClick={this.handleSignUp}
           >
             Create
           </button>
