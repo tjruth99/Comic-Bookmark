@@ -19,12 +19,37 @@
   display: inline-block;
 }
 
+.container {
+  width: calc(400px + 5vmin);
+  clear: both;
+  align: center;
+  margin: 0 auto;
+  font-size: calc(15px + 1vmin);
+}
+
+.container input {
+  width: 100%;
+  font-size: calc(15px + 1vmin);
+  height: calc(17px + 1vmin);
+  clear: both;
+}
+
 button {
+  border: 2px solid black;
+  height: calc(25px + 1vmin);
+  width: calc(65px + 2vmin);
+  opacity: 0.9;
+  transition: 0.5s;
+  font-size: calc(1px + 2vmin);
+  display: inline-block;
+}
+
+.navButton {
   background-color: #282f34;
   color: white;
   border: 2px solid white;
-  height: 30px;
-  width: 100px;
+  height: calc(25px + 2vmin);
+  width: calc(85px + 2vmin);
   padding: 5px 10px;
   opacity: 0.9;
   transition: 0.5s;
@@ -33,6 +58,12 @@ button {
 }
 
 button:hover {
+  background-color: #282f34;
+  color: white;
+  opacity: 1;
+}
+
+.navButton:hover {
   background-color: white;
   color: black;
   opacity: 1;

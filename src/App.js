@@ -9,6 +9,14 @@ import Profile from "./components/Profile";
 
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      username: "",
+      isLogged: 0
+    };
+  }
+
   render() {
     return (
       <div className="App">
@@ -22,6 +30,7 @@ class App extends Component {
               <button
                 name="homeButton"
                 type="button"
+                class="navButton"
               >
                 Home
               </button>
@@ -31,6 +40,7 @@ class App extends Component {
               <button
                 name="comicsButton"
                 type="button"
+                class="navButton"
               >
                 Comics
               </button>
@@ -40,6 +50,7 @@ class App extends Component {
               <button
                 name="loginButton"
                 type="button"
+                class="navButton"
               >
                 Login
               </button>
@@ -49,6 +60,7 @@ class App extends Component {
               <button
                 name="signupButton"
                 type="button"
+                class="navButton"
               >
                 Sign-Up
               </button>
@@ -58,6 +70,7 @@ class App extends Component {
               <button
                 name="profileButton"
                 type="button"
+                class="navButton"
               >
                 Profile
               </button>

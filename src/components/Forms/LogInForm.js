@@ -33,40 +33,45 @@ class LogInForm extends React.Component {
         this.handleAuthenticationUpdate();
       })
       .catch(function(error) {
+        alert("Error when signing in", error.message)
         console.log(error.message);
       });
   }
 
   render () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Email:
-          <input
-            type="text"
-            value={this.state.username}
-            name="email"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={this.state.password}
-            name="password"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <button
-          type="submit"
-        >
-          Log In
-        </button>
-        <h1>{this.state.loggedIn}</h1>
-      </form>
+      <div
+        class="container"
+      >
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Email:
+            <input
+              type="text"
+              value={this.state.username}
+              name="email"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input
+              type="password"
+              value={this.state.password}
+              name="password"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br /><br />
+          <button
+            type="submit"
+          >
+            Log In
+          </button>
+          <h1>{this.state.loggedIn}</h1>
+        </form>
+      </ div>
     );
   }
 }

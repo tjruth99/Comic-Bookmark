@@ -29,49 +29,54 @@ class SignUpForm extends React.Component {
         console.log("Created Account");
       })
       .catch(function(error) {
+        alert("Error when creating account", error.message)
         console.log(error.message);
       });
   }
 
   render () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={this.state.username}
-            name="username"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
-            type="text"
-            value={this.state.email}
-            name="email"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={this.state.password}
-            name="password"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <button
-          type="submit"
-        >
-          Create
-        </button>
-      </form>
+      <div
+        class="container"
+      >
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Username:
+            <input
+              type="text"
+              value={this.state.username}
+              name="username"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
+          <label>
+            Email:
+            <input
+              type="text"
+              value={this.state.email}
+              name="email"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input
+              type="password"
+              value={this.state.password}
+              name="password"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br /><br />
+          <button
+            type="submit"
+          >
+            Create
+          </button>
+        </form>
+      </ div>
     );
   }
 }
