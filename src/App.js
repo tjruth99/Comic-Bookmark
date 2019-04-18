@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
-import Home from "./components/Home";
-import Comics from "./components/Comics";
-import LogIn from "./components/LogIn";
-import SignUp from "./components/SignUp";
-import Profile from "./components/Profile";
+import Home from "./pages/Home";
+import Comics from "./pages/Comics";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 
 
 class App extends Component {

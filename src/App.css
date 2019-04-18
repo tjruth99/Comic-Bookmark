@@ -34,10 +34,23 @@
   clear: both;
 }
 
+.comicList {
+  width: calc(400px + 5vmin);
+  clear: both;
+  align: center;
+  margin: 0 auto;
+  border: 2px solid black;
+  padding-bottom: 10px;
+}
+
+.comicList h3{
+  
+}
+
 button {
   border: 2px solid black;
-  height: calc(25px + 1vmin);
-  width: calc(65px + 2vmin);
+  height: calc(40px + 1vmin);
+  width: calc(75px + 2vmin);
   opacity: 0.9;
   transition: 0.5s;
   font-size: calc(1px + 2vmin);

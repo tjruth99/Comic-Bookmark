@@ -1,4 +1,5 @@
 import React from 'react';
+import ComicList from './components/ComicList';
 
 class Comics extends React.Component {
   constructor(props){
@@ -15,6 +16,7 @@ class Comics extends React.Component {
         <p>
           Display a list of comic book stoires for the user to start reading
         </p>
+        <ComicList />
       </div>
     );
   }
