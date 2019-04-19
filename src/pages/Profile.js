@@ -1,4 +1,5 @@
 import React from 'react';
+import ProfileList from './components/ProfileList'
 
 class Profile extends React.Component {
   render () {
@@ -10,6 +11,7 @@ class Profile extends React.Component {
           <br />
           Display the next issue of the story in smaller, dimmed text
         </p>
+        <ProfileList />
       </div>
     );
   }

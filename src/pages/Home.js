@@ -1,4 +1,5 @@
 import React from 'react';
+import HomeList from './components/HomeList'
 
 class Home extends React.Component {
   constructor(props){
@@ -15,6 +16,7 @@ class Home extends React.Component {
         <p>
           Display a list of users and what stories they are currently reading and what issue they are on
         </p>
+        <HomeList />
       </div>
     );
   }
