@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import * as firebase from 'firebase';
 
 class SignUpForm extends React.Component {
@@ -8,6 +9,8 @@ class SignUpForm extends React.Component {
       username: "",
       email: "",
       password: "",
+
+      redirect: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,7 +30,13 @@ class SignUpForm extends React.Component {
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         console.log("Created Account");
+        localStorage.setItem('_username', this.state.username);
         localStorage.setItem('_userEmail', this.state.email);
+
+        this.setState({
+          redirect: true
+        })
+
       })
       .catch(function(error) {
         alert("Error when creating account: " + error.message)
@@ -36,6 +45,11 @@ class SignUpForm extends React.Component {
   }
 
   render () {
+
+    if(this.state.redirect){
+      return <Redirect to='/profile'/>;
+    }
+
     return (
       <div
         class="container"

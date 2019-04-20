@@ -18,7 +18,7 @@ export default class ProfileList extends React.Component {
 
   nextIssue(name, curIssueNum) {
     // TODO Increment the cur issue, update the page and database
-    console.log("prevIssue " + name + " " + curIssueNum);
+    console.log("nextIssue " + name + " " + curIssueNum);
   }
 
   listElement(name, curIssueNum, issue) {

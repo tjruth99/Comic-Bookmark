@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import * as firebase from 'firebase';
 
 class LogInForm extends React.Component {
@@ -7,7 +8,8 @@ class LogInForm extends React.Component {
     this.state = {
       email: "",
       password: "",
-      loggedIn: 0
+
+      redirect: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -15,8 +17,15 @@ class LogInForm extends React.Component {
   }
 
   handleAuthenticationUpdate() {
-    this.setState({ loggedIn: 1 });
+    // TODO: get username form database and set local storage
+
+
     localStorage.setItem('_userEmail', this.state.email);
+
+    this.setState({
+      redirect: true
+    })
+
   };
 
   handleInputChange(event) {
@@ -40,6 +49,11 @@ class LogInForm extends React.Component {
   }
 
   render () {
+
+    if(this.state.redirect){
+      return <Redirect to='/profile'/>;
+    }
+
     return (
       <div
         class="container"
@@ -71,8 +85,6 @@ class LogInForm extends React.Component {
           >
             Log In
           </button>
-          <h1>{this.state.loggedIn}</h1>
-          <h1>{this.props.username}</h1>
         </form>
       </ div>
     );

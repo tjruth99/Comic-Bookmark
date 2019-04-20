@@ -1,0 +1,39 @@
+Database:
+
+  Usernames:
+    |
+    + "username":     // The user's chosen username
+        |
+        + UserID      // Unique key ID
+
+  Users:
+    |
+    + UserID:         // Unique key ID
+        |
+        + "username"  // The user's chosen username
+        |
+        + Reading:
+            |
+            + Map of comics reading (Series Name : Current Issue)
+
+  Comics:
+    |
+    + Series name:
+        |
+        + Number of Issues
+        |
+        + Publisher   // Marvel, DC, or Other
+
+
+
+
+
+TODO:
+  - Set up firebase functions for creating a user in the Database
+  - Set up StartReading function for firebase that adds the series to the user's collection
+  - Set up NextIssue and PrevIssue to adjust the current issue of a series that the user is Reading
+  - Set up the home page that goes through the database and gets (10-20) series being read by other users
+  - Adjust CSS to give the app a more distinct look
+
+Optional:
+  - Recommendations

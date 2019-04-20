@@ -11,11 +11,12 @@ class Profile extends React.Component {
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
-        this.signOut = this.signOut.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount(){
     this.setState({
+      username: localStorage.getItem('_username'),
       email: localStorage.getItem('_userEmail')
     })
   }
@@ -23,8 +24,11 @@ class Profile extends React.Component {
   signOut(){
     // If, the user is signed in
     console.log("Sign out");
-    localStorage.removeItem('_userEmail')
+    localStorage.removeItem('_username');
+    localStorage.removeItem('_userEmail');
+
     this.setState({
+      username: "",
       email: ""
     })
     firebase.auth().signOut()
@@ -41,7 +45,8 @@ class Profile extends React.Component {
     return (
       <div>
         <h1>Profile</h1>
-        <h2>{this.state.email}</h2>
+        <h2>Username: {this.state.username}</h2>
+        <h2>Email: {this.state.email}</h2>
         <p>
           Display a list of the stories the user is currently reading and have buttons for the user to press to continue or go back on issues
           <br />
