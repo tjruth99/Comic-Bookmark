@@ -27,6 +27,7 @@ class SignUpForm extends React.Component {
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         console.log("Created Account");
+        localStorage.setItem('_userEmail', this.state.email);
       })
       .catch(function(error) {
         alert("Error when creating account: " + error.message)

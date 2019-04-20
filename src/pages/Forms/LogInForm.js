@@ -15,7 +15,8 @@ class LogInForm extends React.Component {
   }
 
   handleAuthenticationUpdate() {
-    this.setState({ loggedIn: 1 })
+    this.setState({ loggedIn: 1 });
+    localStorage.setItem('_userEmail', this.state.email);
   };
 
   handleInputChange(event) {
