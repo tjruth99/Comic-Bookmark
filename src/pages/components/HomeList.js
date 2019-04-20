@@ -3,9 +3,22 @@ import React from 'react';
 export default class HomeList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: "",
+      email: ""
+    };
 
+    this.componentDidMount = this.componentDidMount.bind(this);
+    
     this.listElement = this.listElement.bind(this);
     this.renderList = this.renderList.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({
+      username: localStorage.getItem('_username'),
+      email: localStorage.getItem('_userEmail')
+    })
   }
 
   listElement(username, name, curIssueNum, issues) {

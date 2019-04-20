@@ -13,8 +13,13 @@ class SignUpForm extends React.Component {
       redirect: false
     };
 
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+  }
+
+  componentDidMount(){
+
   }
 
   handleInputChange(event) {

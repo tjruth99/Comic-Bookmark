@@ -6,19 +6,24 @@ class LogInForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      username: "",
       email: "",
       password: "",
 
       redirect: false
     };
 
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
   }
 
+  componentDidMount(){
+
+  }
+
   handleAuthenticationUpdate() {
     // TODO: get username form database and set local storage
-
 
     localStorage.setItem('_userEmail', this.state.email);
 

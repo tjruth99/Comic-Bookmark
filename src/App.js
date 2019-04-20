@@ -12,10 +12,18 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      username: "testtesttest",
-      isLogged: 0
+      username: "",
+      email: ""
     };
   }
+
+  componentDidMount(){
+    this.setState({
+      username: localStorage.getItem('_username'),
+      email: localStorage.getItem('_userEmail')
+    })
+  }
+
 
   render() {
     return (
