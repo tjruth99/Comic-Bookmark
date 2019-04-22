@@ -31,6 +31,8 @@ class LogInForm extends React.Component {
       redirect: true
     })
 
+    window.location.reload();
+
   };
 
   handleInputChange(event) {
@@ -61,7 +63,7 @@ class LogInForm extends React.Component {
 
     return (
       <div
-        class="container"
+        className="container"
       >
         <form>
           <label>

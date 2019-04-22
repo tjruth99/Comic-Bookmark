@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
 import Home from "./pages/Home";
 import Comics from "./pages/Comics";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 
 
@@ -52,26 +50,6 @@ class App extends Component {
               </button>
             </Link>
             <div className="divider" />
-            <Link to="/login">
-              <button
-                name="loginButton"
-                type="button"
-                className="navButton"
-              >
-                Login
-              </button>
-            </Link>
-            <div className="divider" />
-            <Link to="/signup">
-              <button
-                name="signupButton"
-                type="button"
-                className="navButton"
-              >
-                Sign-Up
-              </button>
-            </Link>
-            <div className="divider" />
             <Link to="/profile">
               <button
                 name="profileButton"
@@ -87,8 +65,6 @@ class App extends Component {
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/comics" component={Comics} />
-          <Route path="/login" component={LogIn} />
-          <Route path="/signup" component={SignUp} />
           <Route path="/profile" component={Profile} />
         </div>
         </Router>

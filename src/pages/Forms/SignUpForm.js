@@ -42,6 +42,8 @@ class SignUpForm extends React.Component {
           redirect: true
         })
 
+        window.location.reload();
+
       })
       .catch(function(error) {
         alert("Error when creating account: " + error.message)
