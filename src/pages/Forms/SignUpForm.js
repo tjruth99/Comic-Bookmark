@@ -59,7 +59,7 @@ class SignUpForm extends React.Component {
       <div
         class="container"
       >
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <label>
             Username:
             <input

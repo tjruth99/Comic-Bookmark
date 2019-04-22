@@ -63,12 +63,12 @@ class LogInForm extends React.Component {
       <div
         class="container"
       >
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <label>
             Email:
             <input
               type="text"
-              value={this.state.username}
+              value={this.state.email}
               name="email"
               onChange={this.handleInputChange}
             />
