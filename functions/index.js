@@ -30,7 +30,7 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
   if(userID == null){
     console.log("addUserToDatabase userID null");
   }
-  
+
   // Add a new document in usernames collection
   db.collection("usernames").doc(user).set({
     userID: userID
@@ -106,5 +106,25 @@ exports.prevIssue = functions.https.onRequest((req, res) => {
   }).catch(function(error) {
     console.error("Error decrementing issue ", error);
   });
-  
+
+});
+
+// Function: getIssueFromSeries
+// parameters:
+//    seriesName: name of the series
+//    issueNumber: index of the issue to get from the series
+// Gets the ith issue from the seriesName.
+exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
+  const seriesName = req.body.seriesName;
+  const issueNumber = req.body.issueNumber;
+
+});
+
+// Function: getUserReadings
+// parameters:
+//    userID
+// Returns and array of objects that contain the seriesName, and current issue for each series that the given user is reading
+exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
+  const userID = req.body.userID;
+
 });
