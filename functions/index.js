@@ -1,6 +1,12 @@
 // The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
 
+const cors = require('cors')({ origin: true });
+//var express = require('express')
+//var cors = require('cors')
+//var app = express()
+//app.use(cors())
+
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
 admin.initializeApp();
@@ -18,39 +24,48 @@ exports.test = functions.https.onRequest((req, res) => {
   res.send("Test Function");
 });
 
+/*
+res.set('Access-Control-Allow-Origin', "*")
+res.set('Access-Control-Allow-Methods', 'GET, POST')
+res.status(200).send('smile');
+
+*/
+
 // Function: addUserToDatabase
 // parameters:
 //    userID: random string for given user
 //    username:  user given name for their account
 // Add a new document to the users collection with a key of userID and a field username
 exports.addUserToDatabase = functions.https.onRequest((req, res) => {
-  const userID = req.body.userID;
-  const user = req.body.username;
+  cors(req, res, () => {
+    const userID = req.body.userID;
+    const user = req.body.username;
 
-  if(userID == null){
-    console.log("addUserToDatabase userID null");
-  }
+    if(userID == null){
+      console.log("addUserToDatabase userID null");
+    }
 
-  // Add a new document in usernames collection
-  db.collection("usernames").doc(user).set({
-    userID: userID
+    // Add a new document in usernames collection
+    db.collection("usernames").doc(user).set({
+      userID: userID
+    })
+    .catch(function(error) {
+      console.error("Error writing document: ", error);
+    });
+
+    // Add a new document to users collection
+    db.collection("users").doc(userID).set({
+      username: user,
+    })
+    .catch(function(error) {
+      console.error("Error writing document: ", error);
+    });
+
+    // Add subCollection to users collection
+    db.collection("users").doc(userID).collection("Reading");
+
+    console.log('User added to username and users db');
   })
-  .catch(function(error) {
-    console.error("Error writing document: ", error);
-  });
-
-  // Add a new document to users collection
-  db.collection("users").doc(userID).set({
-    username: user,
-  })
-  .catch(function(error) {
-    console.error("Error writing document: ", error);
-  });
-
-  // Add subCollection to users collection
-  db.collection("users").doc(userID).collection("Reading");
-
-  console.log('User added to username and users db');
 });
 
 // Function: startReading

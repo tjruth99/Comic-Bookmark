@@ -9,17 +9,43 @@ class SignUpForm extends React.Component {
       username: "",
       email: "",
       password: "",
+      userID: "",
 
       redirect: false
     };
 
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.addUserToDatabase = this.addUserToDatabase.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
-  componentDidMount(){
+  componentDidUpdate(){
 
+  }
+
+  addUserToDatabase = () => {
+    console.log("addUserToDatabase");
+    console.log("UserID: " + this.state.userID);
+    console.log("username: " + this.state.username);
+    fetch(
+        "https://us-central1-comicbookmark-970b7.cloudfunctions.net/addUserToDatabase",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userID: this.state.userID,
+            user: this.state.username
+          })
+        }
+      )
+        .then(data => {
+          console.log("SUCCESS!?");
+        })
+        .catch(error => console.error(`Error: addUserToDatabase ${error}`));
   }
 
   handleInputChange(event) {
@@ -38,12 +64,25 @@ class SignUpForm extends React.Component {
         localStorage.setItem('_username', this.state.username);
         localStorage.setItem('_userEmail', this.state.email);
 
+        /*
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            // User logged in already or has just logged in.
+            this.setState({ userID: user.uid });
+            console.log(user.uid);
+          } else {
+            // User not logged in or has just logged out.
+          }
+        });
+        */
+
         this.setState({
+          userID: firebase.auth().currentUser.uid,
           redirect: true
         })
 
+        this.addUserToDatabase();
         window.location.reload();
-
       })
       .catch(function(error) {
         alert("Error when creating account: " + error.message)
