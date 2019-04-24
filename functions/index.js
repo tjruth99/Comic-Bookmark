@@ -121,10 +121,20 @@ exports.startReading = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const userID = req.body.userID;
     const seriesName = req.body.seriesName;
+    let numIssues;
+
+    db.collection("comics").doc(seriesName).get().then(doc => {
+        numIssues = doc.numIssues;
+    }).catch(function(error) {
+      console.error("seriesName does not exist");
+    })
+
+    console.log("numIssues of " + seriesName + ": " + numIssues);
 
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).set({
       seriesName: seriesName,
-      currentIssue: 1
+      currentIssue: 1,
+      numIssues: numIssues
     }).catch(function(error) {
       console.error("Error writing into subCollection: ", error);
     });
@@ -204,8 +214,9 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 
     //should get the issue number index from issues
     db.collection("comics").doc(seriesName).get().then(doc => {
-      console.log(doc.data().issues[issueNumber]);
-      res.send(doc.data().issues[issueNumber]);
+      var issueName = doc.data().issues[issueNumber];
+      console.log(issueName);
+      res.send(issueName);
     }).catch(function(error){
       console.error("Error getting indexed issue: ", error);
       throw new Error(error.message);
@@ -231,7 +242,8 @@ exports.getUserReadings = functions.https.onRequest((req, res) => {
       //resource if this doesn't work: https://www.youtube.com/watch?v=kmTECF0JZyQ
 
       //should get users collection doc of userID, then return reading
-      db.collection("users").doc(userID).get().then(function(querySnapshot) {
+      var userRef = db.collection("users").doc(userID);
+      userRef.collection("Reading").get().then(function(querySnapshot) {
         var comics = [];
         querySnapshot.forEach(function(doc) {
           console.log(doc.id, " => ", doc.data());

@@ -20,6 +20,14 @@ export default class ComicList extends React.Component {
     this.listElement = this.listElement.bind(this);
   }
 
+  componentDidMount(){
+    this.setState({
+      username: localStorage.getItem('_username'),
+      email: localStorage.getItem('_userEmail')
+    })
+
+    this.getComics();
+  }
 
   async getComics(){
     let data = await fetch(
@@ -41,15 +49,6 @@ export default class ComicList extends React.Component {
       this.setState({
         comicList: data.map((data) => (this.listElement(data.seriesName, data.numIssues)))
       })
-  }
-
-  componentDidMount(){
-    this.setState({
-      username: localStorage.getItem('_username'),
-      email: localStorage.getItem('_userEmail')
-    })
-
-    this.getComics();
   }
 
   startReading = (seriesName) => {

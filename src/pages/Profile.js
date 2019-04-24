@@ -20,7 +20,6 @@ class Profile extends React.Component {
   }
 
   componentDidMount(){
-    console.log("(" + this.state.username + ")");
     this.setState({
       username: localStorage.getItem('_username'),
       email: localStorage.getItem('_userEmail')
@@ -50,8 +49,6 @@ class Profile extends React.Component {
   }
 
   render () {
-    console.log("(" + this.state.username + ")");
-
     if( this.state.email == null ){
       return (
         <div>

@@ -24,6 +24,7 @@ class LogInForm extends React.Component {
   }
 
   getUsernameFromID = () => {
+    console.log("getUsernameFromID");
     console.log("userID: " + firebase.auth().currentUser.uid);
     fetch(
         "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getUserFromID",
