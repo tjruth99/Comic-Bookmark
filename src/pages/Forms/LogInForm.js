@@ -13,6 +13,7 @@ class LogInForm extends React.Component {
       redirect: false
     };
 
+    this.getUsernameFromID = this.getUsernameFromID.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
@@ -22,10 +23,36 @@ class LogInForm extends React.Component {
 
   }
 
+  getUsernameFromID = () => {
+    console.log("userID: " + firebase.auth().currentUser.uid);
+    fetch(
+        "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getUserFromID",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userID: firebase.auth().currentUser.uid
+          })
+        }
+      )
+      .then(data => {
+        console.log("data: " + data);
+        this.setState({
+          username: data
+        })
+        localStorage.setItem('_username', this.state.username);
+      })
+      .catch(error => console.error(`Error: getUserFromID ${error}`));
+  }
+
   handleAuthenticationUpdate() {
     // TODO: get username form database and set local storage
 
     localStorage.setItem('_userEmail', this.state.email);
+    this.getUsernameFromID();
 
     this.setState({
       redirect: true

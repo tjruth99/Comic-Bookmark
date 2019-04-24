@@ -2,10 +2,6 @@
 const functions = require('firebase-functions');
 
 const cors = require('cors')({ origin: true });
-//var express = require('express')
-//var cors = require('cors')
-//var app = express()
-//app.use(cors())
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
@@ -23,13 +19,6 @@ exports.test = functions.https.onRequest((req, res) => {
   console.log("Test Function");
   res.send("Test Function");
 });
-
-/*
-res.set('Access-Control-Allow-Origin', "*")
-res.set('Access-Control-Allow-Methods', 'GET, POST')
-res.status(200).send('smile');
-
-*/
 
 // Function: addUserToDatabase
 // parameters:
@@ -78,19 +67,22 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
 exports.getUserFromID = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const userID = req.body.userID;
-    
+
+    console.log("getUserFromID: " + userID);
+
     if(userID == null){
       console.log("getUserFromID userID null");
     }
 
     //get username
     db.collection("users").doc(userID).get().then(doc => {
+      console.log(doc.data().username);
       res.send(doc.data().username.toString());
     }).catch(function(error){
       console.error("Error getting username from users collection: ", error);
       throw new Error(error.message);
     });
-  
+
   })
 });
 
@@ -102,11 +94,14 @@ exports.getIDFromUser = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const user = req.body.username;
 
+    console.log("getIDFromUser: " + user);
+
     if(user == null){
       console.log("getUserFromID userID null");
     }
 
     db.collection("usernames").doc(user).get().then(doc => {
+      console.log(doc.data().userID);
       res.send(doc.data().userID.toString());
     }).catch(function(error){
       console.error("Error getting userID from usernames collection: ", error);
@@ -148,11 +143,18 @@ exports.nextIssue = functions.https.onRequest((req, res) => {
     const userID = req.body.userID;
     const seriesName = req.body.seriesName;
 
+    console.log(userID);
+    console.log(seriesName);
+
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
       //try to increment issue
       currentIssue: admin.firestore.FieldValue.increment(1)
     }).catch(function(error) {
       console.error("Error incrementing issue ", error);
+    });
+
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).get().then(doc =>{
+      console.log(doc);
     });
   })
 });
@@ -167,11 +169,18 @@ exports.prevIssue = functions.https.onRequest((req, res) => {
     const userID = req.body.userID;
     const seriesName = req.body.seriesName;
 
+    console.log(userID);
+    console.log(seriesName);
+
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
       //try to increment issue
       currentIssue: admin.firestore.FieldValue.increment(-1)
     }).catch(function(error) {
       console.error("Error decrementing issue ", error);
+    });
+
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).get().then(doc =>{
+      console.log(doc);
     });
   })
 });
@@ -186,12 +195,16 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
     const seriesName = req.body.seriesName;
     const issueNumber = req.body.issueNumber;
 
+    console.log(seriesName);
+    console.log(issueNumber);
+
     if(seriesName == null || issueNumber == null){
       console.log("getIssueFromSeries null err");
     }
 
     //should get the issue number index from issues
     db.collection("comics").doc(seriesName).get().then(doc => {
+      console.log(doc.data().issues[issueNumber]);
       res.send(doc.data().issues[issueNumber]);
     }).catch(function(error){
       console.error("Error getting indexed issue: ", error);
@@ -209,19 +222,21 @@ exports.getUserReadings = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
       const userID = req.body.userID;
 
+      console.log(userID);
+
       if(userID == null){
         console.log("getIssueFromSeries userID null");
       }
-      
+
       //resource if this doesn't work: https://www.youtube.com/watch?v=kmTECF0JZyQ
 
       //should get users collection doc of userID, then return reading
       db.collection("users").doc(userID).get().then(doc => {
-        res.send(doc.data().reading);
+        console.log(doc.data().Reading);
+        res.send(doc.data().Reading);
       }).catch(function(error){
         console.error("Error getting reading list: ", error);
         throw new Error(error.message);
       });
-
   })
 });
