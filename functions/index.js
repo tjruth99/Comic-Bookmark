@@ -205,9 +205,21 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 // parameters:
 //    userID
 // Returns an array of objects that contain the seriesName, and current issue for each series that the given user is reading
-exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
+exports.getUserReadings = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
       const userID = req.body.userID;
+
+      if(userID == null){
+        console.log("getIssueFromSeries userID null");
+      }
+      
+      //should get users collection doc of userID, then return reading
+      db.collection("users").doc(userID).get().then(doc => {
+        res.send(doc.data().reading);
+      }).catch(function(error){
+        console.error("Error getting reading list: ", error);
+        throw new Error(error.message);
+      });
 
   })
 });
