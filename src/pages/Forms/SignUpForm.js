@@ -38,7 +38,7 @@ class SignUpForm extends React.Component {
           },
           body: JSON.stringify({
             userID: this.state.userID,
-            user: this.state.username
+            username: this.state.username
           })
         }
       )

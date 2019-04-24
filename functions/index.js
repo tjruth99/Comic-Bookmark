@@ -41,6 +41,9 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
     const userID = req.body.userID;
     const user = req.body.username;
 
+    console.log("userID: " + userID);
+    console.log("user: " + user);
+
     if(userID == null){
       console.log("addUserToDatabase userID null");
     }
@@ -55,7 +58,7 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
 
     // Add a new document to users collection
     db.collection("users").doc(userID).set({
-      username: user,
+      username: user
     })
     .catch(function(error) {
       console.error("Error writing document: ", error);
@@ -68,6 +71,26 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
   })
 });
 
+// Function: getUserFromID
+// parameters:
+//    userID
+// Gets the username from userID collection
+exports.getUserFromID = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+
+  })
+});
+
+// Function: getIDFromUser
+// parameters:
+//    username
+// Gets the userID from username collection
+exports.getUserFromID = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+
+  })
+});
+
 // Function: startReading
 // parameters:
 //    userID: random string for given user
@@ -75,17 +98,19 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
 // Adds a new map to the array "Reading" in the given userID document
 // The field should be seriesName and the value should be 1
 exports.startReading = functions.https.onRequest((req, res) => {
-  const userID = req.body.userID;
-  const seriesName = req.body.seriesName;
+  cors(req, res, () => {
+    const userID = req.body.userID;
+    const seriesName = req.body.seriesName;
 
-  db.collection("users").doc(userID).collection("Reading").doc(seriesName).set({
-    seriesName: seriesName,
-    currentIssue: 1
-  }).catch(function(error) {
-    console.error("Error writing into subCollection: ", error);
-  });
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).set({
+      seriesName: seriesName,
+      currentIssue: 1
+    }).catch(function(error) {
+      console.error("Error writing into subCollection: ", error);
+    });
 
-  console.log('Started series ' + seriesName);
+    console.log('Started series ' + seriesName);
+  })
 });
 
 // Function: nextIssue
@@ -94,16 +119,18 @@ exports.startReading = functions.https.onRequest((req, res) => {
 //    seriesName: name of the series to add to the user's document
 // Goes to "Reading" field in the user's document and increments the current issue for the given seriesName
 exports.nextIssue = functions.https.onRequest((req, res) => {
-  const userID = req.body.userID;
-  const seriesName = req.body.seriesName;
+  cors(req, res, () => {
+    const userID = req.body.userID;
+    const seriesName = req.body.seriesName;
 
-  db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
-    //try to increment issue
-    currentIssue: admin.firestore.FieldValue.increment(1)
-  }).catch(function(error) {
-    console.error("Error incrementing issue ", error);
-  });
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
+      //try to increment issue
+      currentIssue: admin.firestore.FieldValue.increment(1)
+    }).catch(function(error) {
+      console.error("Error incrementing issue ", error);
+    });
 
+  })
 });
 
 // Function: prevIssue
@@ -112,16 +139,17 @@ exports.nextIssue = functions.https.onRequest((req, res) => {
 //    seriesName: name of the series to add to the user's document
 // Goes to "Reading" field in the user's document and decrements the current issue for the given seriesName
 exports.prevIssue = functions.https.onRequest((req, res) => {
-  const userID = req.body.userID;
-  const seriesName = req.body.seriesName;
+  cors(req, res, () => {
+    const userID = req.body.userID;
+    const seriesName = req.body.seriesName;
 
-  db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
-    //try to increment issue
-    currentIssue: admin.firestore.FieldValue.increment(-1)
-  }).catch(function(error) {
-    console.error("Error decrementing issue ", error);
-  });
-
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).update({
+      //try to increment issue
+      currentIssue: admin.firestore.FieldValue.increment(-1)
+    }).catch(function(error) {
+      console.error("Error decrementing issue ", error);
+    });
+  })
 });
 
 // Function: getIssueFromSeries
@@ -130,9 +158,13 @@ exports.prevIssue = functions.https.onRequest((req, res) => {
 //    issueNumber: index of the issue to get from the series
 // Gets the ith issue from the seriesName.
 exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
-  const seriesName = req.body.seriesName;
-  const issueNumber = req.body.issueNumber;
+  cors(req, res, () => {
+    const seriesName = req.body.seriesName;
+    const issueNumber = req.body.issueNumber;
 
+    db.collection("comics").doc(seriesName).get()
+
+  })
 });
 
 // Function: getUserReadings
@@ -140,6 +172,7 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 //    userID
 // Returns and array of objects that contain the seriesName, and current issue for each series that the given user is reading
 exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
-  const userID = req.body.userID;
-
+  cors(req, res, () => {
+      const userID = req.body.userID;
+  })
 });

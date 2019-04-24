@@ -12,9 +12,13 @@ Database:
         |
         + "username"  // The user's chosen username
         |
-        + Reading:
+        + Reading:    // sub collection
             |
-            + Map of comics reading (Series Name : Current Issue)
+            + Name of series  // Document
+                |
+                + Name of series  // Field
+                |
+                + Current Issue   // Field
 
   Comics:
     |
