@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #282f34;
+  background-color: #0f1e3d;
   min-height: 15vh;
   display: flex;
   flex-direction: column;
@@ -35,6 +35,8 @@
 }
 
 .comicList {
+  background-color: #404559;
+  color: white;
   width: calc(400px + 8vw);
   clear: both;
   align: center;
@@ -42,10 +44,6 @@
   border: 2px solid black;
   border-radius: 15px;
   padding-bottom: 25px;
-}
-
-.comicList h3{
-
 }
 
 button {
@@ -59,7 +57,7 @@ button {
 }
 
 .navButton {
-  background-color: #282f34;
+  background-color: #0f1e3d;
   color: white;
   border: 2px solid white;
   height: calc(25px + 1em);
@@ -72,7 +70,7 @@ button {
 }
 
 button:hover {
-  background-color: #282f34;
+  background-color: #0f1e3d;
   color: white;
   opacity: 1;
 }

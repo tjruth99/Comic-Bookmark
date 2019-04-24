@@ -32,10 +32,14 @@ Database:
 
 
 
+Complete:
+  X Set up firebase functions for creating a user in the Database
+  X Set up StartReading function for firebase that adds the series to the user's collection
+  X Set up NextIssue and PrevIssue to adjust the current issue of a series that the user is Reading
+
 TODO:
-  - Set up firebase functions for creating a user in the Database
-  - Set up StartReading function for firebase that adds the series to the user's collection
-  - Set up NextIssue and PrevIssue to adjust the current issue of a series that the user is Reading
+  - getUserReadings to get all of the issues that the user is currently reading along with the current issue
+  - getIssueFromSeries get a specific issue from a series
   - Set up the home page that goes through the database and gets (10-20) series being read by other users
   - Adjust CSS to give the app a more distinct look
 

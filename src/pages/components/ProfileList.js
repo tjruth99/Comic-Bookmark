@@ -1,4 +1,5 @@
 import React from 'react';
+import * as firebase from 'firebase';
 
 export default class ProfileList extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class ProfileList extends React.Component {
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    
+
     this.listElement = this.listElement.bind(this);
     this.renderList = this.renderList.bind(this);
   }
@@ -21,14 +22,52 @@ export default class ProfileList extends React.Component {
     })
   }
 
-  prevIssue(name, curIssueNum) {
-    // TODO Decrement the cur issue, update the page and database
-    console.log("prevIssue " + name + " " + curIssueNum);
+  prevIssue(seriesName) {
+    console.log("prevIssue");
+    console.log("userID: " + firebase.auth().currentUser.uid);
+    console.log("seriesName: " + seriesName);
+    fetch(
+        "https://us-central1-comicbookmark-970b7.cloudfunctions.net/prevIssue",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userID: firebase.auth().currentUser.uid,
+            seriesName: seriesName
+          })
+        }
+      )
+      .then(data => {
+        console.log("prevIssue end");
+      })
+      .catch(error => console.error(`Error: prevIssue ${error}`));
   }
 
-  nextIssue(name, curIssueNum) {
-    // TODO Increment the cur issue, update the page and database
-    console.log("nextIssue " + name + " " + curIssueNum);
+  nextIssue(seriesName) {
+    console.log("nextIssue");
+    console.log("userID: " + firebase.auth().currentUser.uid);
+    console.log("seriesName: " + seriesName);
+    fetch(
+        "https://us-central1-comicbookmark-970b7.cloudfunctions.net/nextIssue",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userID: firebase.auth().currentUser.uid,
+            seriesName: seriesName
+          })
+        }
+      )
+      .then(data => {
+        console.log("prevIssue end");
+      })
+      .catch(error => console.error(`Error: nextIssue ${error}`));
   }
 
   listElement(name, curIssueNum, issue) {

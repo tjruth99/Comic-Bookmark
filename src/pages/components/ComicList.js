@@ -1,4 +1,5 @@
 import React from 'react';
+import * as firebase from 'firebase';
 
 export default class ComicList extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class ComicList extends React.Component {
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.startReading = this.startReading.bind(this);
-    
+
     this.listElement = this.listElement.bind(this);
     this.renderList = this.renderList.bind(this);
   }
@@ -22,11 +23,34 @@ export default class ComicList extends React.Component {
     })
   }
 
-  startReading(name) {
-    // Add the current comic book to the user's database to start Reading
-    console.log("Start Reading:");
-    console.log(name);
+  startReading = (seriesName) => {
+    if( this.state.email === null ){
+      alert("You are not signed in");
+    } else {
+      console.log("startReading start");
+      console.log("userID: " + firebase.auth().currentUser.uid);
+      console.log("seriesName: " + seriesName);
+      fetch(
+          "https://us-central1-comicbookmark-970b7.cloudfunctions.net/startReading",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              userID: firebase.auth().currentUser.uid,
+              seriesName: seriesName
+            })
+          }
+        )
+        .then(data => {
+          console.log("startReading end");
+        })
+        .catch(error => console.error(`Error: startReading ${error}`));
+    }
   }
+
 
   listElement(name, issues) {
     return (
