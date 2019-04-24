@@ -240,3 +240,24 @@ exports.getUserReadings = functions.https.onRequest((req, res) => {
       });
   })
 });
+
+// Function: getComics
+// No parameters
+// Returns a list of all of the current comics in the database
+exports.getComics = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    db.collection("comics").get().then(function(querySnapshot) {
+      var comics = [];
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        comics.push(doc.data());
+      });
+      console.log("comics: " + comics);
+      res.send(comics);
+    }).catch(function(error){
+      console.error("error getting comics collection: ", error);
+      throw new Error(error.message);
+    });
+  })
+});

@@ -1,14 +1,19 @@
 import React from 'react';
 import * as firebase from 'firebase';
 
+let comicList = [];
+
 export default class ComicList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      email: ""
+      email: "",
+
+      comicList: []
     };
 
+    this.getComics = this.getComics.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this);
     this.startReading = this.startReading.bind(this);
 
@@ -16,11 +21,44 @@ export default class ComicList extends React.Component {
     this.renderList = this.renderList.bind(this);
   }
 
+
+  async getComics(){
+    let data = await fetch(
+      "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getComics",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        })
+      });
+
+      data = await data.json();
+
+      console.log("data: " + JSON.stringify(data));
+
+      /*let list = [];
+      for(var i = 0; i < data.length; i++){
+        list.push(this.listElement(data[i].seriesName, data[i].numIssues));
+      }
+      */
+
+      this.setState({
+        comicList: data.map((data) => (this.listElement(data.seriesName, data.numIssues)))
+      })
+
+    //  return list;
+  }
+
   componentDidMount(){
     this.setState({
       username: localStorage.getItem('_username'),
       email: localStorage.getItem('_userEmail')
     })
+
+    this.getComics();
   }
 
   startReading = (seriesName) => {
@@ -70,22 +108,17 @@ export default class ComicList extends React.Component {
     );
   }
 
+
+
   renderList() {
     // TODO: Create a firebase function to get all comics from the database and put them in an Array
     // Use that to create this list
 
-    var sampleList = ['List 1', 'List 2', 'List 3'];
-    var issues = 33;
-    let list = [];
-    for(var i = 0; i < sampleList.length; i++){
-      list.push(this.listElement(sampleList[i], issues));
-    }
-    return list;
   }
 
   render() {
     return(
-      <div>{this.renderList()}</div>
+      <div>{this.state.comicList}</div>
     );
   }
 }

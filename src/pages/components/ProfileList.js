@@ -100,7 +100,7 @@ export default class ProfileList extends React.Component {
     // TODO: Create a firebase function to get all comics from the database and put them in an Array
     // Use that to create this list
 
-    var sampleList = ['Series 1', 'Series 2', 'Series 3'];
+    var sampleList = ['List 1', 'List 2', 'Series 3'];
     var issues = ['33', '20', '120'];
     let list = [];
     for(var i = 0; i < sampleList.length; i++){
