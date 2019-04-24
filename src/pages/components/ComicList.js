@@ -18,7 +18,6 @@ export default class ComicList extends React.Component {
     this.startReading = this.startReading.bind(this);
 
     this.listElement = this.listElement.bind(this);
-    this.renderList = this.renderList.bind(this);
   }
 
 
@@ -39,17 +38,9 @@ export default class ComicList extends React.Component {
 
       console.log("data: " + JSON.stringify(data));
 
-      /*let list = [];
-      for(var i = 0; i < data.length; i++){
-        list.push(this.listElement(data[i].seriesName, data[i].numIssues));
-      }
-      */
-
       this.setState({
         comicList: data.map((data) => (this.listElement(data.seriesName, data.numIssues)))
       })
-
-    //  return list;
   }
 
   componentDidMount(){
@@ -106,14 +97,6 @@ export default class ComicList extends React.Component {
         <br />
       </div>
     );
-  }
-
-
-
-  renderList() {
-    // TODO: Create a firebase function to get all comics from the database and put them in an Array
-    // Use that to create this list
-
   }
 
   render() {

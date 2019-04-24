@@ -231,9 +231,14 @@ exports.getUserReadings = functions.https.onRequest((req, res) => {
       //resource if this doesn't work: https://www.youtube.com/watch?v=kmTECF0JZyQ
 
       //should get users collection doc of userID, then return reading
-      db.collection("users").doc(userID).get().then(doc => {
-        console.log(doc.data().Reading);
-        res.send(doc.data().Reading);
+      db.collection("users").doc(userID).get().then(function(querySnapshot) {
+        var comics = [];
+        querySnapshot.forEach(function(doc) {
+          console.log(doc.id, " => ", doc.data());
+          comics.push(doc.data());
+        });
+        console.log("comics: " + comics);
+        res.send(comics);
       }).catch(function(error){
         console.error("Error getting reading list: ", error);
         throw new Error(error.message);
@@ -249,7 +254,6 @@ exports.getComics = functions.https.onRequest((req, res) => {
     db.collection("comics").get().then(function(querySnapshot) {
       var comics = [];
       querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
         comics.push(doc.data());
       });

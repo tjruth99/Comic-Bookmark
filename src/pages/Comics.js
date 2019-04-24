@@ -23,7 +23,7 @@ class Comics extends React.Component {
       <div>
         <h1>Comics</h1>
         <p>
-          Display a list of comic book stoires for the user to start reading
+          Select a comic to start reading:
         </p>
         <ComicList />
       </div>
