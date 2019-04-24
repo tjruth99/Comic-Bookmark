@@ -213,6 +213,8 @@ exports.getUserReadings = functions.https.onRequest((req, res) => {
         console.log("getIssueFromSeries userID null");
       }
       
+      //resource if this doesn't work: https://www.youtube.com/watch?v=kmTECF0JZyQ
+
       //should get users collection doc of userID, then return reading
       db.collection("users").doc(userID).get().then(doc => {
         res.send(doc.data().reading);
