@@ -74,19 +74,44 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
 // Function: getUserFromID
 // parameters:
 //    userID
-// Gets the username from userID collection
+// Gets the username from users collection
 exports.getUserFromID = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
+    const userID = req.body.userID;
+    
+    if(userID == null){
+      console.log("getUserFromID userID null");
+    }
 
+    //get username
+    db.collection("users").doc(userID).get().then(doc => {
+      res.send(doc.data().username.toString());
+    }).catch(function(error){
+      console.error("Error getting username from users collection: ", error);
+      throw new Error(error.message);
+    });
+  
   })
 });
 
 // Function: getIDFromUser
 // parameters:
 //    username
-// Gets the userID from username collection
-exports.getUserFromID = functions.https.onRequest((req, res) => {
+// Gets the userID from usernames collection
+exports.getIDFromUser = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
+    const user = req.body.username;
+
+    if(user == null){
+      console.log("getUserFromID userID null");
+    }
+
+    db.collection("usernames").doc(user).get().then(doc => {
+      res.send(doc.data().userID.toString());
+    }).catch(function(error){
+      console.error("Error getting userID from usernames collection: ", error);
+      throw new Error(error.message);
+    });
 
   })
 });
@@ -161,7 +186,17 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
     const seriesName = req.body.seriesName;
     const issueNumber = req.body.issueNumber;
 
-    db.collection("comics").doc(seriesName).get()
+    if(seriesName == null || issueNumber == null){
+      console.log("getIssueFromSeries null err");
+    }
+
+    //should get the issue number index from issues
+    db.collection("comics").doc(seriesName).get().then(doc => {
+      res.send(doc.data().issues[issueNumber]);
+    }).catch(function(error){
+      console.error("Error getting indexed issue: ", error);
+      throw new Error(error.message);
+    });
 
   })
 });
@@ -169,9 +204,10 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 // Function: getUserReadings
 // parameters:
 //    userID
-// Returns and array of objects that contain the seriesName, and current issue for each series that the given user is reading
+// Returns an array of objects that contain the seriesName, and current issue for each series that the given user is reading
 exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
       const userID = req.body.userID;
+
   })
 });
