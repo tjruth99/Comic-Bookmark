@@ -98,7 +98,7 @@ class SignUpForm extends React.Component {
 
     return (
       <div
-        class="container"
+        className="container"
       >
         <form>
           <label>

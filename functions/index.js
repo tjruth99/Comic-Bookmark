@@ -129,7 +129,6 @@ exports.nextIssue = functions.https.onRequest((req, res) => {
     }).catch(function(error) {
       console.error("Error incrementing issue ", error);
     });
-
   })
 });
 
