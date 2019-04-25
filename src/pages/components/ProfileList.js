@@ -17,18 +17,16 @@ export default class ProfileList extends React.Component {
     this.getUserReadings = this.getUserReadings.bind(this);
     this.getIssueFromSeries = this.getIssueFromSeries.bind(this);
     this.listElement = this.listElement.bind(this);
-    this.renderList = this.renderList.bind(this);
+
+    this.nextOrRemove = this.nextOrRemove.bind(this);
+
     this.getIssue = this.getIssue.bind(this);
   }
 
   componentDidMount(){
-    let id;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
-        console.log("inside onauthchanged");
-        console.log(firebase.auth().currentUser.uid);
-        id = firebase.auth().currentUser.uid;
         this.setState({
           userID: firebase.auth().currentUser.uid
         });
@@ -37,8 +35,6 @@ export default class ProfileList extends React.Component {
         // No user is signed in.
       }
     }.bind(this));
-
-    console.log("var: " + this.state.userID);
   }
 
   async getUserReadings(){
@@ -103,7 +99,6 @@ export default class ProfileList extends React.Component {
     data = await data.json();
 
     issueName = data.issues[issueNumber];
-    console.log("issueName: " + issueName);
 
     return issueName;
   }
@@ -134,6 +129,15 @@ export default class ProfileList extends React.Component {
     window.location.reload();
   }
 
+  nextOrRemove(seriesName, currentIssue, numIssues){
+    if( currentIssue === (numIssues - 1) ){
+      console.log("REMOVE SERIES");
+      this.stopReading(seriesName);
+    } else {
+      this.nextIssue(seriesName);
+    }
+  }
+
   nextIssue(seriesName) {
     console.log("nextIssue");
     console.log("userID: " + firebase.auth().currentUser.uid);
@@ -157,7 +161,31 @@ export default class ProfileList extends React.Component {
         window.location.reload();
       })
       .catch(error => console.error(`Error: nextIssue ${error}`));
+  }
 
+  stopReading(seriesName) {
+    console.log("stopReading");
+    console.log("userID: " + firebase.auth().currentUser.uid);
+    console.log("seriesName: " + seriesName);
+    fetch(
+        "https://us-central1-comicbookmark-970b7.cloudfunctions.net/stopReading",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userID: firebase.auth().currentUser.uid,
+            seriesName: seriesName
+          })
+        }
+      )
+      .then(data => {
+        console.log("stopReading end");
+        window.location.reload();
+      })
+      .catch(error => console.error(`Error: nextIssue ${error}`));
   }
 
   listElement(seriesName, currentIssue, numIssues, issueName) {
@@ -169,14 +197,14 @@ export default class ProfileList extends React.Component {
           <p>{issueName}</p>
           <button
             type="button"
-            onClick={() => this.prevIssue(seriesName, currentIssue)}
+            onClick={() => this.prevIssue(seriesName)}
           >
             Prev Issue
           </button>
           <div className="divider" />
           <button
             type="button"
-            onClick={() => this.nextIssue(seriesName, currentIssue)}
+            onClick={() => this.nextOrRemove(seriesName, currentIssue, numIssues)}
           >
             Next Issue
           </button>
@@ -184,20 +212,6 @@ export default class ProfileList extends React.Component {
         <br />
       </div>
     );
-  }
-
-  renderList() {
-    // TODO: Create a firebase function to get all comics from the database and put them in an Array
-    // Use that to create this list
-/*
-    var sampleList = ['List 1', 'List 2', 'Series 3'];
-    var issues = ['33', '20', '120'];
-    let list = [];
-    for(var i = 0; i < sampleList.length; i++){
-      list.push(this.listElement(sampleList[i], 1, issues[i]));
-    }
-    return list;
-*/
   }
 
   render() {

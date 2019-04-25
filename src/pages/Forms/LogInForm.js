@@ -42,10 +42,8 @@ class LogInForm extends React.Component {
       )
     data = await data.json();
     console.log("username data: " + data);
-    this.setState({
-      username: data
-    })
-    localStorage.setItem('_username', this.state.username);
+    console.log(data.username);
+    localStorage.setItem('_username', data.username);
   }
 
   handleAuthenticationUpdate() {
@@ -72,9 +70,10 @@ class LogInForm extends React.Component {
     })
 
     localStorage.setItem('_userID', id);
+
     this.getUsernameFromID();
 
-    window.location.reload();
+    //window.location.reload();
   };
 
   handleInputChange(event) {

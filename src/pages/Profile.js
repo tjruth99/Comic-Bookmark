@@ -84,13 +84,10 @@ class Profile extends React.Component {
     } else {
       return (
         <div>
-          <h1>Profile</h1>
-          <h2>Username: {this.state.username}</h2>
-          <h2>Email: {this.state.email}</h2>
+          <h1>{this.state.username}'s Profile</h1>
+          <h3>Email: {this.state.email}</h3>
           <p>
-            Display a list of the stories the user is currently reading and have buttons for the user to press to continue or go back on issues
-            <br />
-            Display the next issue of the story in smaller, dimmed text
+            What you are currently reading:
           </p>
           <ProfileList />
           <button

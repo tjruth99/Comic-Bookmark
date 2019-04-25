@@ -79,7 +79,7 @@ exports.getUserFromID = functions.https.onRequest((req, res) => {
     //get username
     db.collection("users").doc(userID).get().then(doc => {
       console.log(doc.data().username);
-      res.send(doc.data().username);
+      res.send(doc.data());
     }).catch(function(error){
       console.error("Error getting username from users collection: ", error);
       throw new Error(error.message);
@@ -155,7 +155,7 @@ exports.stopReading = functions.https.onRequest((req, res) => {
     console.log(seriesName);
 
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).delete().then(function() {
-        console.log(seriesName, " successfully deleted from user!");
+        console.log("" + seriesName +" successfully deleted from user!");
     }).catch(function(error) {
         console.error("Error removing document: ", error);
     });
