@@ -118,7 +118,7 @@ exports.getIDFromUser = functions.https.onRequest((req, res) => {
 //    userID: random string for given user
 //    seriesName: name of the series to add to the user's document
 // Adds a new map to the array "Reading" in the given userID document
-// The field should be seriesName and the value should be 1
+// The field should be seriesName and the value should be 0
 exports.startReading = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const userID = req.body.userID;
@@ -138,6 +138,17 @@ exports.startReading = functions.https.onRequest((req, res) => {
     console.log('Started series ' + seriesName);
 
     res.send();
+  })
+});
+
+// Function: stopReading
+// parameters:
+//    userID: random string for given user
+//    seriesName: name of the series to add to the user's document
+// Remove the seriesName from the user's Reading collection
+exports.stopReading = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+
   })
 });
 
