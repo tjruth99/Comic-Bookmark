@@ -9,6 +9,7 @@ class LogInForm extends React.Component {
       username: "",
       email: "",
       password: "",
+      userID: "",
 
       redirect: false
     };
@@ -23,10 +24,10 @@ class LogInForm extends React.Component {
 
   }
 
-  getUsernameFromID = () => {
+  async getUsernameFromID() {
     console.log("getUsernameFromID");
     console.log("userID: " + firebase.auth().currentUser.uid);
-    fetch(
+    let data = await fetch(
         "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getUserFromID",
         {
           method: "POST",
@@ -39,28 +40,41 @@ class LogInForm extends React.Component {
           })
         }
       )
-      .then(data => {
-        console.log("data: " + data);
-        this.setState({
-          username: data
-        })
-        localStorage.setItem('_username', this.state.username);
-      })
-      .catch(error => console.error(`Error: getUserFromID ${error}`));
+    data = await data.json();
+    console.log("username data: " + data);
+    this.setState({
+      username: data
+    })
+    localStorage.setItem('_username', this.state.username);
   }
 
   handleAuthenticationUpdate() {
     // TODO: get username form database and set local storage
 
     localStorage.setItem('_userEmail', this.state.email);
-    this.getUsernameFromID();
+
+    var id;
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log("inside onauthchanged");
+        console.log(firebase.auth().currentUser.uid);
+        id = firebase.auth().currentUser.uid;
+      } else {
+        // No user is signed in.
+      }
+    });
 
     this.setState({
+      userID: id,
       redirect: true
     })
 
-    window.location.reload();
+    localStorage.setItem('_userID', id);
+    this.getUsernameFromID();
 
+    window.location.reload();
   };
 
   handleInputChange(event) {

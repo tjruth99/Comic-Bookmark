@@ -61,25 +61,15 @@ class SignUpForm extends React.Component {
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         console.log("Created Account");
-        localStorage.setItem('_username', this.state.username);
-        localStorage.setItem('_userEmail', this.state.email);
-
-        /*
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            // User logged in already or has just logged in.
-            this.setState({ userID: user.uid });
-            console.log(user.uid);
-          } else {
-            // User not logged in or has just logged out.
-          }
-        });
-        */
-
+        
         this.setState({
           userID: firebase.auth().currentUser.uid,
           redirect: true
         })
+
+        localStorage.setItem('_username', this.state.username);
+        localStorage.setItem('_userEmail', this.state.email);
+        localStorage.setItem('_userID', this.state.userID);
 
         this.addUserToDatabase();
         window.location.reload();

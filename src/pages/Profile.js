@@ -31,11 +31,13 @@ class Profile extends React.Component {
     console.log("Sign out");
     localStorage.removeItem('_username');
     localStorage.removeItem('_userEmail');
+    localStorage.removeItem('_userID');
 
     this.setState({
       username: "",
       email: ""
     })
+
     firebase.auth().signOut()
       .then(() => {
         // Do Something

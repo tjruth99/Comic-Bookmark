@@ -7,6 +7,7 @@ export default class ProfileList extends React.Component {
     this.state = {
       username: "",
       email: "",
+      userID: "",
 
       comicList: []
     };
@@ -20,18 +21,29 @@ export default class ProfileList extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({
-      username: localStorage.getItem('_username'),
-      email: localStorage.getItem('_userEmail')
-    })
+    let id;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log("inside onauthchanged");
+        console.log(firebase.auth().currentUser.uid);
+        id = firebase.auth().currentUser.uid;
+        this.setState({
+          userID: firebase.auth().currentUser.uid
+        });
+        this.getUserReadings();
+      } else {
+        // No user is signed in.
+      }
+    }.bind(this));
 
-    this.getUserReadings();
+    console.log("var: " + this.state.userID);
   }
 
   async getUserReadings(){
     try{
       console.log("getUserReadings");
-      console.log("userID: " + firebase.auth().currentUser.uid);
+      console.log("userID: " + this.state.userID);
       let data = await fetch(
         "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getUserReadings",
         {
@@ -41,28 +53,28 @@ export default class ProfileList extends React.Component {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            userID: firebase.auth().currentUser.uid
+            userID: this.state.userID
           })
         });
 
-        data = await data.json();
+      data = await data.json();
 
-        console.log("data: " + JSON.stringify(data));
+      console.log("data: " + JSON.stringify(data));
 
-        this.setState({
-          comicList: data.map((data) => (this.listElement(data.seriesName, data.currentIssue, data.numIssues)))
-        })
-      } catch (err){
-        console.error(`Error: getUserReadings ${err}`);
-      }
+      this.setState({
+        comicList: data.map((data) => (this.listElement(data.seriesName, data.currentIssue, data.numIssues)))
+      })
+    } catch (err){
+      console.error(`Error: getUserReadings ${err}`);
+    }
   }
 
-  getIssueFromSeries(seriesName, issueNumber) {
+  async getIssueFromSeries(seriesName, issueNumber) {
     var issueName;
     console.log("getIssueFromSeries");
     console.log("seriesName: " + seriesName);
     console.log("issueNumber: " + issueNumber);
-    fetch(
+    var data = await fetch(
         "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getIssueFromSeries",
         {
           method: "POST",
@@ -76,11 +88,10 @@ export default class ProfileList extends React.Component {
           })
         }
       )
-      .then(data => {
-        console.log("data: " + data);
-        issueName = data.toString();
-      })
-      .catch(error => console.error(`Error: getIssueFromSeries ${error}`));
+    console.log("data: " + data);
+    issueName = data.toString();
+
+    return issueName;
   }
 
   prevIssue(seriesName) {
@@ -103,8 +114,10 @@ export default class ProfileList extends React.Component {
       )
       .then(data => {
         console.log("prevIssue end");
+        window.location.reload();
       })
       .catch(error => console.error(`Error: prevIssue ${error}`));
+    window.location.reload();
   }
 
   nextIssue(seriesName) {
@@ -126,28 +139,31 @@ export default class ProfileList extends React.Component {
         }
       )
       .then(data => {
-        console.log("prevIssue end");
+        console.log("nextIssue end");
+        window.location.reload();
       })
       .catch(error => console.error(`Error: nextIssue ${error}`));
+
   }
 
-  listElement(name, curIssueNum, issue) {
+  listElement(seriesName, currentIssue, numIssues) {
+    //let issueName = this.getIssueFromSeries(seriesName, currentIssue);
     return (
       <div>
         <div className="comicList">
-          <h2>{name}</h2>
-          <h4>{curIssueNum} / {issue} issues</h4>
-          <p>{this.getIssueFromSeries(name, curIssueNum)}</p>
+          <h2>{seriesName}</h2>
+          <h4>{currentIssue} / {numIssues} issues</h4>
+          <p>issueName</p>
           <button
             type="button"
-            onClick={() => this.prevIssue(name, curIssueNum)}
+            onClick={() => this.prevIssue(seriesName, currentIssue)}
           >
             Prev Issue
           </button>
           <div className="divider" />
           <button
             type="button"
-            onClick={() => this.nextIssue(name, curIssueNum)}
+            onClick={() => this.nextIssue(seriesName, currentIssue)}
           >
             Next Issue
           </button>

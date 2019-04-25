@@ -1,8 +1,6 @@
 import React from 'react';
 import * as firebase from 'firebase';
 
-let comicList = [];
-
 export default class ComicList extends React.Component {
   constructor(props) {
     super(props);
@@ -42,13 +40,13 @@ export default class ComicList extends React.Component {
         })
       });
 
-      data = await data.json();
+    data = await data.json();
 
-      console.log("data: " + JSON.stringify(data));
+    console.log("data: " + JSON.stringify(data));
 
-      this.setState({
-        comicList: data.map((data) => (this.listElement(data.seriesName, data.numIssues)))
-      })
+    this.setState({
+      comicList: data.map((data) => (this.listElement(data.seriesName, data.numIssues)))
+    })
   }
 
   startReading = (seriesName) => {

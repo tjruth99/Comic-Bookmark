@@ -57,6 +57,8 @@ exports.addUserToDatabase = functions.https.onRequest((req, res) => {
     db.collection("users").doc(userID).collection("Reading");
 
     console.log('User added to username and users db');
+
+    res.send();
   })
 });
 
@@ -77,7 +79,7 @@ exports.getUserFromID = functions.https.onRequest((req, res) => {
     //get username
     db.collection("users").doc(userID).get().then(doc => {
       console.log(doc.data().username);
-      res.send(doc.data().username.toString());
+      res.send(doc.data().username);
     }).catch(function(error){
       console.error("Error getting username from users collection: ", error);
       throw new Error(error.message);
@@ -140,6 +142,8 @@ exports.startReading = functions.https.onRequest((req, res) => {
     });
 
     console.log('Started series ' + seriesName);
+
+    res.send();
   })
 });
 
@@ -166,6 +170,8 @@ exports.nextIssue = functions.https.onRequest((req, res) => {
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).get().then(doc =>{
       console.log(doc);
     });
+
+    res.send();
   })
 });
 
@@ -192,6 +198,8 @@ exports.prevIssue = functions.https.onRequest((req, res) => {
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).get().then(doc =>{
       console.log(doc);
     });
+
+    res.send();
   })
 });
 
@@ -214,7 +222,7 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 
     //should get the issue number index from issues
     db.collection("comics").doc(seriesName).get().then(doc => {
-      var issueName = doc.data().issues[issueNumber];
+      var issueName = doc.data().issues.val(issueNumber);
       console.log(issueName);
       res.send(issueName);
     }).catch(function(error){
