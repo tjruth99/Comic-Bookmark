@@ -148,7 +148,19 @@ exports.startReading = functions.https.onRequest((req, res) => {
 // Remove the seriesName from the user's Reading collection
 exports.stopReading = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
+    const userID = req.body.userID;
+    const seriesName = req.body.seriesName;
 
+    console.log(userID);
+    console.log(seriesName);
+
+    db.collection("users").doc(userID).collection("Reading").doc(seriesName).delete().then(function() {
+        console.log(seriesName, " successfully deleted from user!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+
+    res.send();
   })
 });
 
