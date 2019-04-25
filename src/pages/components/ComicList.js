@@ -49,7 +49,7 @@ export default class ComicList extends React.Component {
     })
   }
 
-  startReading = (seriesName) => {
+  startReading = (seriesName, numIssues) => {
     if( this.state.email === null ){
       alert("You are not signed in");
     } else {
@@ -66,7 +66,8 @@ export default class ComicList extends React.Component {
             },
             body: JSON.stringify({
               userID: firebase.auth().currentUser.uid,
-              seriesName: seriesName
+              seriesName: seriesName,
+              numIssues: numIssues
             })
           }
         )
@@ -86,7 +87,7 @@ export default class ComicList extends React.Component {
           <h4>{issues} issues</h4>
           <button
             type="button"
-            onClick={() => this.startReading(name)}
+            onClick={() => this.startReading(name, issues)}
           >
             Start Reading
           </button>

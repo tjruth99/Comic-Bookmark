@@ -18,6 +18,7 @@ export default class ProfileList extends React.Component {
     this.getIssueFromSeries = this.getIssueFromSeries.bind(this);
     this.listElement = this.listElement.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.getIssue = this.getIssue.bind(this);
   }
 
   componentDidMount(){
@@ -61,12 +62,22 @@ export default class ProfileList extends React.Component {
 
       console.log("data: " + JSON.stringify(data));
 
+      for( var i = 0; i < data.length; i++){
+        data[i].issueName =  await this.getIssueFromSeries(data[i].seriesName, data[i].currentIssue);
+      }
+
+      console.log("data: " + JSON.stringify(data));
+
       this.setState({
-        comicList: data.map((data) => (this.listElement(data.seriesName, data.currentIssue, data.numIssues)))
+        comicList: data.map((data) => (this.listElement(data.seriesName, data.currentIssue, data.numIssues, data.issueName)))
       })
     } catch (err){
       console.error(`Error: getUserReadings ${err}`);
     }
+  }
+
+  getIssue(serieName, issueNumber){
+    return this.getIssueFromSeries(serieName, issueNumber);
   }
 
   async getIssueFromSeries(seriesName, issueNumber) {
@@ -74,7 +85,7 @@ export default class ProfileList extends React.Component {
     console.log("getIssueFromSeries");
     console.log("seriesName: " + seriesName);
     console.log("issueNumber: " + issueNumber);
-    var data = await fetch(
+    let data = await fetch(
         "https://us-central1-comicbookmark-970b7.cloudfunctions.net/getIssueFromSeries",
         {
           method: "POST",
@@ -87,9 +98,12 @@ export default class ProfileList extends React.Component {
             issueNumber: issueNumber
           })
         }
-      )
-    console.log("data: " + data);
-    issueName = data.toString();
+      );
+
+    data = await data.json();
+
+    issueName = data.issues[issueNumber];
+    console.log("issueName: " + issueName);
 
     return issueName;
   }
@@ -146,14 +160,13 @@ export default class ProfileList extends React.Component {
 
   }
 
-  listElement(seriesName, currentIssue, numIssues) {
-    //let issueName = this.getIssueFromSeries(seriesName, currentIssue);
+  listElement(seriesName, currentIssue, numIssues, issueName) {
     return (
       <div>
         <div className="comicList">
           <h2>{seriesName}</h2>
-          <h4>{currentIssue} / {numIssues} issues</h4>
-          <p>issueName</p>
+          <h4>{currentIssue + 1} / {numIssues} issues</h4>
+          <p>{issueName}</p>
           <button
             type="button"
             onClick={() => this.prevIssue(seriesName, currentIssue)}

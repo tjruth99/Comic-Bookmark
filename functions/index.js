@@ -123,19 +123,13 @@ exports.startReading = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const userID = req.body.userID;
     const seriesName = req.body.seriesName;
-    let numIssues;
-
-    db.collection("comics").doc(seriesName).get().then(doc => {
-        numIssues = doc.numIssues;
-    }).catch(function(error) {
-      console.error("seriesName does not exist");
-    })
+    let numIssues = req.body.numIssues;
 
     console.log("numIssues of " + seriesName + ": " + numIssues);
 
     db.collection("users").doc(userID).collection("Reading").doc(seriesName).set({
       seriesName: seriesName,
-      currentIssue: 1,
+      currentIssue: 0,
       numIssues: numIssues
     }).catch(function(error) {
       console.error("Error writing into subCollection: ", error);
@@ -222,9 +216,9 @@ exports.getIssueFromSeries = functions.https.onRequest((req, res) => {
 
     //should get the issue number index from issues
     db.collection("comics").doc(seriesName).get().then(doc => {
-      var issueName = doc.data().issues.val(issueNumber);
-      console.log(issueName);
-      res.send(issueName);
+      //var issueName = doc.data().issues[issueNumber].toString();
+      console.log(doc.data());
+      res.send(doc.data());
     }).catch(function(error){
       console.error("Error getting indexed issue: ", error);
       throw new Error(error.message);
